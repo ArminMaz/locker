@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from core.models import Member
-from core.serializers import MemberCreateSerializer, UIDListSerializer
+from core.serializers import MemberCreateSerializer, UIDListSerializer, MemberDetailSerializer
 
 
 class SerialConnenction(APIView):
@@ -25,3 +25,8 @@ class MemberCreate(generics.CreateAPIView):
 class MemberUIDList(generics.ListAPIView):
     queryset = Member.objects.all()
     serializer_class = UIDListSerializer
+
+
+class MemberEntryList(generics.ListAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberDetailSerializer
