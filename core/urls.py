@@ -1,9 +1,7 @@
 from django.conf.urls import url
-from .views import SerialConnenction, MemberUIDList, MemberCreate, MemberEntryList
+from .views import MemberUIDList, EntryLogCreate
 
 urlpatterns = [
-    url(r'^serial/$', SerialConnenction.as_view()),
-    url(r'^update/$', MemberUIDList.as_view()),
-    url(r'^sign-up/$', MemberCreate.as_view()),
-    url(r'^members-entry-details/$', MemberEntryList.as_view())
+    url(r'^entry-log/$', EntryLogCreate.as_view()),
+    url(r'^members-list/$', MemberUIDList.as_view()),
 ]

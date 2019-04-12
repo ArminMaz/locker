@@ -1,24 +1,42 @@
 from rest_framework import serializers
-from .models import Member
+from .models import Member, Entry
+from datetime import datetime
+
+# class MemberCreateSerializer(serializers.ModelSerializer):
+#
+#     class Meta:
+#         model = Member
+#         fields = '__all__'
+
+#
+# class MemberDetailSerializer(serializers.ModelSerializer):
+#     entry = serializers.SlugRelatedField(
+#         many=True,
+#         read_only=True,
+#         slug_field='date'
+#     )
+#
+#     class Meta:
+#         model = Member
+#         fields = ('name', 'student_id', 'uid', 'join_date', 'entry')
 
 
-class MemberCreateSerializer(serializers.ModelSerializer):
+class EntrySerializer(serializers.ModelSerializer):
+    member = serializers.ReadOnlyField
 
     class Meta:
-        model = Member
-        fields = '__all__'
+        model = Entry
+        fields = ('member', 'uid', 'date', 'approved')
 
-
-class MemberDetailSerializer(serializers.ModelSerializer):
-    entry = serializers.SlugRelatedField(
-        many=True,
-        read_only=True,
-        slug_field='date'
-    )
-
-    class Meta:
-        model = Member
-        fields = ('name', 'student_id', 'uid', 'join_date', 'entry')
+    def create(self, validated_data):
+        approved = validated_data['approved']
+        uid = validated_data['uid']
+        date = datetime.now()
+        try:
+            member = Member.objects.get(uid=uid)
+            return Entry.objects.create(member=member, uid=uid, approved=approved, date=date)
+        except:
+            return Entry.objects.create(member=None, uid=uid, approved=approved, date=date)
 
 
 class UIDListSerializer(serializers.ModelSerializer):
