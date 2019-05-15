@@ -12,7 +12,7 @@ class Member(models.Model):
 
 
 class Entry(models.Model):
-    member = models.ForeignKey(Member, related_name='entry', on_delete=models.CASCADE, null=True)
+    member = models.ForeignKey(Member, related_name='entry', on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(auto_now_add=True, editable=False)
     approved = models.BooleanField(default=False, null=False)
     uid = models.CharField(null=False, max_length=50, default='')
